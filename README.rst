@@ -31,3 +31,7 @@ and ``math`` so that their contents can be used without prologue.
 Finally I've written some useful functions such as ``clamp`` to force a value to be 
 within minimum and maximum.
 
+Running the solutions
+---------------------
+
+Simply use ``python3 runner.py daynumber``.
