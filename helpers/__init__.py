@@ -5,21 +5,23 @@ from collections import *
 from string import *
 import operator as op
 import re
+from aocd import get_data
 
 
-def _set_input(filename):
-    global _input_filename
-    _input_filename = filename
+class Data:
+    def __init__(self, data):
+        self.data = data
 
-def input_file():
-    with open(_input_filename) as f:
-        return f.read().strip()
+    def lines(self):
+        return list(filter(bool, map(str.rstrip, self.data.splitlines())))
 
-def input_lines():
-    return list(filter(bool, map(str.strip, input_file().splitlines())))
+    def split(self, separator=', '):
+        return self.data.split(separator)
 
-def input_split(separator=', '):
-    return input_file().split(separator)
+
+def get_aoc_data(day):
+    return Data(get_data(day=day))
+
 
 def clamp(value, min_, max_):
     if value < min_:
