@@ -2,6 +2,9 @@ from math import *
 from itertools import *
 from functools import *
 from collections import *
+from string import *
+import operator as op
+import re
 
 
 def _set_input(filename):
