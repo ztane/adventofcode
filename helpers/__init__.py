@@ -28,6 +28,7 @@ class Data:
 def get_aoc_data(day):
     """
     Get the wrapped AOC data for a given day
+
     :param day: the day
     :return: the data
     """
@@ -37,6 +38,7 @@ def get_aoc_data(day):
 def clamp(value, min_, max_):
     """
     Clamp the value so that it is at least min_ and at most max_
+
     :param value: the value
     :param min_: the minimum
     :param max_: the maximum
@@ -53,6 +55,7 @@ def clamp(value, min_, max_):
 def ngrams(n, value):
     """
     Given a *sequence*, return its n-grams
+
     :param value: the value, can be list, tuple, or str
     :return: *generator* of the ngrams
     """
@@ -64,6 +67,7 @@ def ngrams(n, value):
 def items(thing, *indexes):
     """
     Return the given indexes of the item as a tuple
+
     :param thing: the thing to index
     :param indexes: indexes
     :return: tuple of the items
@@ -74,6 +78,7 @@ def items(thing, *indexes):
 def ints(container):
     """
     Return the given items as ints, in the same container type
+
     :param container: the items
     :return: the items as ints
     """
@@ -85,9 +90,24 @@ def ints(container):
 def floats(container):
     """
     Return the given items as floats, in the same container type
+
     :param container: the items
     :return: the items as ints
     """
 
     t = type(container)
     return t(map(float, container))
+
+
+def every_nths(iterable, n=2):
+    """
+    return n lists of every nth elements; first list contains item
+    0, second list item 1 and so forth
+
+    :param iterable: the iterable to iterate over. Will be converted
+        to a list internally
+    :return: list of lists
+    """
+
+    as_list = list(iterable)
+    return [as_list[i::n] for i in range(n)]

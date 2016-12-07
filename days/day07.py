@@ -22,11 +22,7 @@ def netsplit(s):
     :return: sequence of (supers, hypers)
     """
     nets = re.split('\\[(.*?)]', s)
-    rv = [[], []]
-    for i, net in enumerate(nets):
-        rv[i % 2].append(net)
-
-    return rv
+    return every_nths(nets)
 
 
 def part1():
