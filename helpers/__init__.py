@@ -6,7 +6,6 @@ from string import *
 import operator as op
 import re
 from aocd import get_data
-from operator import itemgetter as ig
 
 
 class Data:
@@ -41,3 +40,7 @@ def ngrams(n, value):
 
     for i in range(len(value) - n + 1):
         yield value[i:i + n]
+
+
+def items(thing, *indexes):
+    return op.itemgetter(*indexes)(thing)

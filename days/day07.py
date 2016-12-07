@@ -12,7 +12,7 @@ def has_abba(net):
     """
 
     for p in ngrams(4, net):
-        if ig(0, 1)(p) == ig(3, 2)(p) and p[0] != p[1]:
+        if items(p, 0, 1) == items(p, 3, 2) and p[0] != p[1]:
             return True
 
 
