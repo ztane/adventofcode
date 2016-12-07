@@ -10,9 +10,9 @@ def has_abba(net):
     :param net: the super/hypernet
     :return: True if it has ABBA
     """
-    for i in range(len(net) - 3):
-        part = net[i:i + 4]
-        if part[0] == part[3] and part[1] == part[2] and part[0] != part[1]:
+
+    for p in ngrams(4, net):
+        if ig(0, 1)(p) == ig(3, 2)(p) and p[0] != p[1]:
             return True
 
 
@@ -50,10 +50,9 @@ def get_babs(net):
     :param net: the string where to find ABAs
     :return: generator of BABs
     """
-    for i in range(len(net) - 2):
-        part = net[i:i + 3]
-        if part[0] == part[2] and part[0] != part[1]:
-            yield part[1] + part[0] + part[1]
+    for p in ngrams(3, net):
+        if p[0] == p[2] and p[0] != p[1]:
+            yield p[1] + p[0] + p[1]
 
 
 def part2():

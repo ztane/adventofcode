@@ -6,6 +6,7 @@ from string import *
 import operator as op
 import re
 from aocd import get_data
+from operator import itemgetter as ig
 
 
 class Data:
@@ -29,3 +30,14 @@ def clamp(value, min_, max_):
     if value > max_:
         return max_
     return value
+
+
+def ngrams(n, value):
+    """
+    Given a *sequence*, return its n-grams
+    :param value: the value, can be list, tuple, or str
+    :return: *generator* of the ngrams
+    """
+
+    for i in range(len(value) - n + 1):
+        yield value[i:i + n]
