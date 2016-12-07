@@ -1,5 +1,4 @@
 from helpers import *
-# import numpy as np
 
 d = get_aoc_data(day=7)
 
@@ -11,8 +10,8 @@ def has_abba(net):
     :return: True if it has ABBA
     """
 
-    for p in ngrams(4, net):
-        if items(p, 0, 1) == items(p, 3, 2) and p[0] != p[1]:
+    for a, b, b2, a2 in ngrams(4, net):
+        if (a, b) == (a2, b2) and a != b:
             return True
 
 
@@ -50,9 +49,9 @@ def get_babs(net):
     :param net: the string where to find ABAs
     :return: generator of BABs
     """
-    for p in ngrams(3, net):
-        if p[0] == p[2] and p[0] != p[1]:
-            yield p[1] + p[0] + p[1]
+    for a, b, a2 in ngrams(3, net):
+        if a == a2 and a != b:
+            yield b + a + b
 
 
 def part2():
