@@ -1,5 +1,6 @@
 import numpy as np
 from helpers import chained, get_ints, draw_display, get_aoc_data
+import time
 
 d = get_aoc_data(day=8)
 
@@ -20,12 +21,12 @@ def part1():
         else:
             print('Unknown', i)
 
-        print(i)
+        print('\033[2J\033[H' + i)
         draw_display(display)
+        time.sleep(0.1)
 
     print('Number of pixels set:', sum(chained(display)))
 
 
 def part2():
-    print('Read the answer yourself')
-    draw_display(display)
+    print('Read the answer yourself ^')
