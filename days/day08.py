@@ -1,5 +1,5 @@
-from helpers import *
 import numpy as np
+from helpers import chained, get_ints, draw_display, get_aoc_data
 
 d = get_aoc_data(day=8)
 
@@ -23,7 +23,7 @@ def part1():
         print(i)
         draw_display(display)
 
-    print('Number of pixels set:', sum(chain.from_iterable(display)))
+    print('Number of pixels set:', sum(chained(display)))
 
 
 def part2():

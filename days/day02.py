@@ -1,4 +1,4 @@
-from helpers import *
+from helpers import get_aoc_data, clamp
 
 d = get_aoc_data(day=2)
 
@@ -9,6 +9,7 @@ directions = {
     'R': (1,  0)
 }
 
+
 def part1():
     keyboard = """
        123
@@ -17,13 +18,7 @@ def part1():
     """.split()
     
     x, y = 1, 1
-    directions = {
-        'U': (0, -1),
-        'D': (0, 1),
-        'L': (-1, 0),
-        'R': (1, 0)
-    }
-    
+
     seq = ''
     
     for line in d.lines():
@@ -35,6 +30,7 @@ def part1():
         seq += str(keyboard[y][x])
     
     print(seq)
+
 
 def part2():
     keyboard = """

@@ -1,5 +1,7 @@
-from helpers import *
 from hashlib import md5
+from itertools import count
+
+from helpers import get_aoc_data
 
 d = get_aoc_data(day=5)
 

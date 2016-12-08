@@ -142,3 +142,4 @@ def draw_display(display_data):
     print('-' * row_length)
 
 
+chained = chain.from_iterable

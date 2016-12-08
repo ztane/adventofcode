@@ -1,4 +1,6 @@
-from helpers import *
+from collections import Counter
+
+from helpers import get_aoc_data
 
 d = get_aoc_data(day=6)
 
