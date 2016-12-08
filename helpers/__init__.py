@@ -9,6 +9,8 @@ from collections import *
 # noinspection PyUnresolvedReferences
 from string import *
 # noinspection PyUnresolvedReferences
+from hashlib import md5
+# noinspection PyUnresolvedReferences
 import re
 import operator as op
 from aocd import get_data
@@ -111,3 +113,32 @@ def every_nths(iterable, n=2):
 
     as_list = list(iterable)
     return [as_list[i::n] for i in range(n)]
+
+
+def get_ints(s):
+    """
+    Return all decimal integers in the given string
+    as a sequence
+
+    :param s: a string
+    :return: sequence of integers
+    """
+    return list(map(int, re.findall('\d+', s)))
+
+
+def draw_display(display_data):
+    """
+    Draw pixel display (row, column matrix)
+
+    :param display_data: the display data
+    :return: None
+    """
+    row_length = len(display_data[0])
+    print('-' * row_length)
+    for row in display_data:
+        for column in row:
+            print([' ', '\033[42m \033[0m'][bool(column)], end='')
+        print()
+    print('-' * row_length)
+
+
