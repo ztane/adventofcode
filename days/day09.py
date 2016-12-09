@@ -2,14 +2,14 @@ from helpers import *
 
 d = get_aoc_data(day=9)
 
-marker_re = re.compile(r'\((\d+)x(\d+)\)')
+repetition_marker = re.compile(r'\(\d+x\d+\)')
 
 
 def get_length(s, recursive=False):
     total = 0
     pos = 0
     while pos < len(s):
-        m = marker_re.match(s, pos)
+        m = repetition_marker.match(s, pos)
         if m:
             length, repeats = get_ints(m.group(0))
             pos += len(m.group(0))
@@ -34,4 +34,3 @@ def part1():
 
 def part2():
     print('recursively uncompressed length is', get_length(d.data, True))
-
