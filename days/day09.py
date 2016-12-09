@@ -8,7 +8,7 @@ marker_re = re.compile(r'\((\d+)x(\d+)\)')
 def get_length(s, recursive=False):
     total = 0
     pos = 0
-    while pos < len(s.strip()):
+    while pos < len(s):
         m = marker_re.match(s, pos)
         if m:
             length, repeats = get_ints(m.group(0))

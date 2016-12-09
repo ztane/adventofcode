@@ -18,7 +18,7 @@ from aocd import get_data
 
 class Data:
     def __init__(self, data):
-        self.data = data
+        self.data = data.rstrip('\n\r')
 
     def lines(self):
         return list(filter(bool, map(str.rstrip, self.data.splitlines())))
