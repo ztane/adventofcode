@@ -1,4 +1,6 @@
-from helpers import *
+import re
+
+from helpers import get_aoc_data, get_ints
 
 d = get_aoc_data(day=9)
 
@@ -33,4 +35,5 @@ def part1():
 
 
 def part2():
+    d.data = '(5x5)(5x5)ABCDE'
     print('recursively uncompressed length is', get_length(d.data, True))

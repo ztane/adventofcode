@@ -77,7 +77,7 @@ def items(thing, *indexes):
     return op.itemgetter(*indexes)(thing)
 
 
-def ints(container):
+def to_ints(container):
     """
     Return the given items as ints, in the same container type
 
@@ -89,7 +89,7 @@ def ints(container):
     return t(map(int, container))
 
 
-def floats(container):
+def to_floats(container):
     """
     Return the given items as floats, in the same container type
 
