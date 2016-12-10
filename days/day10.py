@@ -1,12 +1,15 @@
-from helpers import *
-import re
-
+import operator as op
+from collections import OrderedDict
+from collections import defaultdict
+from functools import reduce
+from helpers import get_aoc_data, Parser, items
 
 d = get_aoc_data(day=10)
-bot_output = re.compile(r'bot (\d+) gives low to (output|bot) (\d+)'
-                        r' and high to (output|bot) (\d+)')
-
 part2_value = None
+
+value = Parser('value <int> goes to bot <int>')
+gives = Parser('bot <int> gives low to <str:output|bot> <int>'
+               ' and high to <str:output|bot> <int>')
 
 
 def part1():
@@ -19,18 +22,18 @@ def part1():
     bot, output = items(thingies, 'bot', 'output')
 
     for i in d.lines():
-        if i.startswith('value'):
-            v, bot_no = get_ints(i)
+        if value(i):
+            v, bot_no = value
             bot[bot_no].append(v)
 
-        else:
-            m = bot_output.match(i)
-
-            bot_no, ltype, lno, htype, hno = m.groups()
-            connections[int(bot_no)] = (
-                thingies[ltype][int(lno)],
-                thingies[htype][int(hno)]
+        elif gives(i):
+            bot_no, ltype, lno, htype, hno = gives
+            connections[bot_no] = (
+                thingies[ltype][lno],
+                thingies[htype][hno]
             )
+        else:
+            raise ValueError("Input doesn't match:", i)
 
     while True:
         for k, v in bot.items():

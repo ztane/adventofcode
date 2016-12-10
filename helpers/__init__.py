@@ -142,4 +142,101 @@ def draw_display(display_data):
     print('-' * row_length)
 
 
+_parser_conversions = {
+    'int': (int, '\d+'),
+    'str': (str, '.*?'),
+}
+
+
+class Parser:
+    """
+    A parser class for parsing fields from a single
+    formatted input string.
+    """
+    def __init__(self, fmt, verbatim_ws=False):
+        """
+        Initialize the parser class, with given format
+
+        :param fmt: the format string
+        :param verbatim_ws: if false, spaces are replaced with
+            \s+, if true, space characters must match exactly
+        """
+        regex = ''
+        pos = 0
+
+        self.matched = False
+        self.items = ()
+        self.conversions = []
+
+        while pos < len(fmt):
+            c = fmt[pos]
+            pos += 1
+            if c == '<':
+                if fmt[pos] == '<':
+                    regex += r'\<'
+                    pos += 1
+                else:
+                    end = fmt.index('>', pos)
+                    pattern = fmt[pos:end] or 'str'
+                    conversion, _, pattern = pattern.partition(':')
+                    convfunc, default_re = _parser_conversions[conversion]
+                    if not pattern:
+                        pattern = default_re
+                    regex += '({})'.format(pattern)
+                    self.conversions.append(convfunc)
+                    pos = end + 1
+
+            else:
+                if c == ' ' and not verbatim_ws:
+                    regex += r'\s+'
+                else:
+                    regex += re.escape(c)
+
+        self.regex = re.compile(regex)
+
+    def __call__(self, string):
+        """
+        Match the given string agains the pattern, and set results
+        :param string: the string
+        :return: self for chaining and truth-value checking
+        """
+        m = self.regex.fullmatch(string)
+        self.matched = bool(m)
+        if m:
+            self.items = tuple(
+                self._convert(m, convfunc, group)
+                for (group, convfunc) in enumerate(self.conversions, 1))
+        else:
+            self.items = ()
+
+        return self
+
+    def _convert(self, match, convfunc, group):
+        val = match.group(group)
+        if val is not None:
+            return convfunc(val)
+        return None
+
+    def __bool__(self):
+        return self.matched
+
+    def __iter__(self):
+        if not self.matched:
+            raise ValueError('The pattern didn\'t match')
+
+        return iter(self.items)
+
+    def __len__(self):
+        if not self.matched:
+            raise ValueError('The pattern didn\'t match')
+
+        return len(self.items)
+
+    def __getitem__(self, i):
+        if not self.matched:
+            raise ValueError('The pattern didn\'t match')
+
+        return self.items[i]
+
+
 chained = chain.from_iterable
