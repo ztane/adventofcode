@@ -21,7 +21,7 @@ def part1():
 
     seq = ''
     
-    for line in d.lines():
+    for line in d.lines:
         for i in line:
             dx, dy = directions[i]
             x = clamp(x + dx, 0, 2)
@@ -44,7 +44,7 @@ def part2():
     x, y = 2, 2
     seq = ''
     
-    for line in d.lines():
+    for line in d.lines:
         for i in line:
             dx, dy = directions[i]
             new_x = clamp(x + dx, 0, 4)

@@ -29,7 +29,7 @@ def netsplit(s):
 
 def part1():
     cnt = 0
-    for i in d.lines():
+    for i in d.lines:
         supers, hypers = netsplit(i)
 
         if not any(map(has_abba, supers)):
@@ -54,7 +54,7 @@ def get_babs(net):
 
 def part2():
     cnt = 0
-    for i in d.lines():
+    for i in d.lines:
         supers, hypers = netsplit(i)
 
         for sn in supers:

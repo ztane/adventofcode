@@ -21,7 +21,7 @@ def part1():
     }
     bot, output = items(thingies, 'bot', 'output')
 
-    for i in d.lines():
+    for i in d.lines:
         if value(i):
             v, bot_no = value
             bot[bot_no].append(v)

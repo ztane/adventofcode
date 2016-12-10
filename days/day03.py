@@ -11,7 +11,7 @@ def is_triangle(numbers):
 def part1():
     count = 0
 
-    for i in d.lines():
+    for i in d.lines:
         count += is_triangle(map(int, i.split()))
 
     print(count)
@@ -21,7 +21,7 @@ def part2():
     count = 0
 
     def gen():
-        for i in d.lines():
+        for i in d.lines:
             yield list(map(int, i.split()))
 
     horizontal = zip(*gen())

@@ -7,7 +7,7 @@ d = get_aoc_data(day=6)
 
 def part1():
     counters = [Counter() for _ in range(len('bgpmxqws'))]
-    for line in d.lines():
+    for line in d.lines:
         for ctr, char in zip(counters, line):
             ctr.update(char)
 
@@ -17,7 +17,7 @@ def part1():
 
 def part2():
     counters = [Counter() for _ in range(len('bgpmxqws'))]
-    for line in d.lines():
+    for line in d.lines:
         for ctr, char in zip(counters, line):
             ctr.update(char)
 

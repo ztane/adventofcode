@@ -20,6 +20,7 @@ class Data:
     def __init__(self, data):
         self.data = data.rstrip('\n\r')
 
+    @property
     def lines(self):
         return list(filter(bool, map(str.rstrip, self.data.splitlines())))
 
@@ -210,6 +211,10 @@ class Parser:
             self.items = ()
 
         return self
+
+    def for_lines(self, lines):
+        for line in lines:
+            yield tuple(self(line))
 
     def _convert(self, match, convfunc, group):
         val = match.group(group)
