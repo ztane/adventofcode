@@ -40,9 +40,9 @@ def solve(components):
     visited = set()
 
     while True:
-        comps, floor, distance = open_nodes.popleft()
+        item_states, elevator_door, distance = open_nodes.popleft()
         for move in (1, -1):
-            new_floor = floor + move
+            new_floor = elevator_door + move
             if not (0 <= new_floor <= 3):
                 continue
 
@@ -52,25 +52,30 @@ def solve(components):
                 order = ((0, 1), (1, 0), (1, 1), (2, 0), (0, 2))
 
             for i, (ge, ce) in enumerate(order):
-                g, c = comps[floor]
+                g, c = item_states[elevator_door]
                 if g < ge or c < ce:
                     continue
 
-                comps_copy = list(comps)
-                comps_copy[floor] = g - ge, c - ce
-                tg, tc = comps_copy[new_floor]
-                comps_copy[new_floor] = tg + ge, tc + ce
-                floors_t = (tuple(comps_copy), new_floor)
+                new_item_state = list(item_states)
+                new_item_state[elevator_door] = g - ge, c - ce
+                tg, tc = new_item_state[new_floor]
+                new_item_state[new_floor] = tg + ge, tc + ce
+                new_item_state = tuple(new_item_state)
 
-                if floors_t not in visited and not fries(comps_copy):
-                    visited.add(floors_t)
-                    open_nodes.append(floors_t + (distance + 1,))
-                    if comps[0:3] == ((0, 0), (0, 0), (0, 0)):
-                        print(distance)
+                if ((new_item_state, new_floor) not in visited
+                    and not fries(new_item_state)):
+
+                    visited.add((new_item_state, new_floor))
+                    open_nodes.append(
+                        (new_item_state, new_floor, distance + 1,))
+                    if new_item_state[0:3] == ((0, 0), (0, 0), (0, 0)):
+                        print(distance + 1)
                         return
+
 
 def part1():
     solve(tuple(states))
+
 
 def part2():
     """
