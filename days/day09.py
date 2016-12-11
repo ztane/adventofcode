@@ -35,5 +35,4 @@ def part1():
 
 
 def part2():
-    d.data = '(5x5)(5x5)ABCDE'
     print('recursively uncompressed length is', get_length(d.data, True))
