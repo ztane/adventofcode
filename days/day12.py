@@ -50,10 +50,7 @@ for i in d.lines:
         def instr(op=accessor(op), branch=branch):
             global ip
             if op():
-                if branch < 0:
-                    ip += branch - 1
-                else:
-                    ip += branch - 1
+                ip += branch - 1
 
     else:
         print('failing instruction', i)
