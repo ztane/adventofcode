@@ -31,7 +31,7 @@ instructions.append('print("Finished. a = {}".format(a)); raise SystemExit()')
 instructions = [compile(c, '<instruction>', 'exec') for c in instructions]
 
 
-def run(registers):
+def run(**registers):
     registers['__builtins__'] = globals()['__builtins__']
     while True:
         try:
@@ -42,15 +42,8 @@ def run(registers):
 
 
 def part1():
-    registers = dict.fromkeys('abcd', 0)
-    registers['ip'] = 0
-
-    run(registers)
+    run(a=0, b=0, c=0, d=0, ip=0)
 
 
 def part2():
-    registers = dict.fromkeys('abcd')
-    registers['ip'] = 0
-    registers['c'] = 1
-
-    run(registers)
+    run(a=0, b=0, c=1, d=0, ip=0)
