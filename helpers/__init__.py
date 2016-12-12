@@ -144,7 +144,7 @@ def draw_display(display_data):
 
 
 _parser_conversions = {
-    'int': (int, '\d+'),
+    'int': (int, '-?\d+'),
     'str': (str, '.*?'),
 }
 

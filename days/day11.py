@@ -6,6 +6,7 @@ from helpers import get_aoc_data, Parser
 d = get_aoc_data(day=11)
 lineparser = Parser('The <> floor contains <>.')
 
+
 states = []
 for i in d.lines:
     _, items = lineparser(i)
@@ -36,7 +37,6 @@ def fries(comps):
 def solve(components):
     open_nodes = deque()
     open_nodes.append((components, 0, 0))
-
     visited = set()
 
     while True:
@@ -51,7 +51,7 @@ def solve(components):
             else:
                 order = ((0, 1), (1, 0), (1, 1), (2, 0), (0, 2))
 
-            for i, (ge, ce) in enumerate(order):
+            for ge, ce in order:
                 g, c = item_states[elevator_door]
                 if g < ge or c < ce:
                     continue
