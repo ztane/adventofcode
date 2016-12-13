@@ -11,6 +11,7 @@ from string import *
 # noinspection PyUnresolvedReferences
 from hashlib import md5
 # noinspection PyUnresolvedReferences
+from heapq import *
 import re
 import operator as op
 from aocd import get_data
@@ -244,4 +245,60 @@ class Parser:
         return self.items[i]
 
 
+
+
+@total_ordering
+class Node:
+    __slots__ = ('heuristic', 'distance', 'state')
+
+    def __init__(self, heuristic, distance, state):
+        self.heuristic = heuristic
+        self.distance = distance
+        self.state = state
+
+    def __eq__(self, other):
+        return ((self.heuristic, self.distance) ==
+                (other.heuristic, other.distance))
+
+    def __lt__(self, other):
+        return (self.heuristic, self.distance) < (other.heuristic, other.distance)
+
+    def __iter__(self):
+        return iter((self.heuristic, self.distance, self.state))
+
+
+def a_star_solve(origin,
+                 *,
+                 target=None,
+                 max_distance=None,
+                 neighbours,
+                 heuristic=None):
+
+    if max_distance is None:
+        max_distance = 2 ** 32
+
+    if not heuristic:
+        heuristic = lambda node, target: 0
+
+    queue = [Node(heuristic(origin, target), 0, origin)]
+    visited = {origin}
+
+    while queue:
+        hx, distance, node = heappop(queue)
+        if node == target:
+            return distance
+
+        visited.add(node)
+        for node in neighbours(node):
+            if node in visited:
+                continue
+
+            if distance < max_distance:
+                heappush(queue, Node(heuristic(node, target), distance + 1, node))
+
+    return len(visited)
+
+
 chained = chain.from_iterable
+
+

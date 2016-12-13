@@ -4,6 +4,7 @@ from helpers import get_aoc_data, get_ints
 
 d = get_aoc_data(day=9)
 
+d.data = '(6x2)A(1x2)B'
 repetition_marker = re.compile(r'\(\d+x\d+\)')
 
 

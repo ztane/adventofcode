@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+from pytz import timezone
 import sys
 if sys.version_info < (3,):
     print('WTF, are you running my code in Python 2??!')
@@ -7,13 +7,25 @@ if sys.version_info < (3,):
 
 from os import path
 import helpers
+import time
+
+from datetime import datetime
+
 
 if __name__ == '__main__':
+    day = int(sys.argv[1])
     if len(sys.argv) != 2:
         print('Usage: runner.py daynumber')
         sys.exit(2)
 
-    day = int(sys.argv[1])
+    while True:
+        now = datetime.now()
+        if day <= now.day:
+            break
+
+        print('Time has not yet come, current UTC time is {}'.format(now), end='\r')
+        time.sleep(1)
+
     day_module = 'day{:02}'.format(day)
     module = getattr(__import__('days.' + day_module), day_module)
     for part in [1, 2]:

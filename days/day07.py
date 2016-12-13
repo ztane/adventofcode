@@ -30,7 +30,7 @@ def netsplit(s):
 def part1():
     cnt = 0
     for i in d.lines:
-        supers, hypers = netsplit(i)
+        supers, hypers = netsplit(i.strip())
 
         if not any(map(has_abba, supers)):
             continue

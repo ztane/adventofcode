@@ -6,6 +6,7 @@ from functools import lru_cache
 import itertools
 
 d = get_aoc_data(day=11)
+print(d.data)
 
 lineparser = Parser('The <> floor contains <>.')
 

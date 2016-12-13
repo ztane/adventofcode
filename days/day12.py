@@ -2,7 +2,7 @@ from helpers import *
 
 d = get_aoc_data(day=12)
 
-
+print(d.data)
 cpy = Parser('cpy <> <>')
 inc = Parser('inc <>')
 dec = Parser('dec <>')
@@ -66,8 +66,11 @@ def hlt():
 
 def run():
     global ip
+    ctr = 0
     while not memory[ip]():
         ip += 1
+        ctr += 1
+    print(ctr, 'clock cycles')
 
 
 def part1():
