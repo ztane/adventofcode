@@ -283,9 +283,11 @@ def a_star_solve(origin,
     queue = [Node(heuristic(origin, target), 0, origin)]
     visited = {origin}
 
+    cnt = 0
     while queue:
         hx, distance, node = heappop(queue)
         if node == target:
+            print(cnt, 'iterations')
             return distance
 
         visited.add(node)
@@ -295,7 +297,9 @@ def a_star_solve(origin,
 
             if distance < max_distance:
                 heappush(queue, Node(heuristic(node, target), distance + 1, node))
+                cnt += 1
 
+    print(cnt, 'iterations')
     return len(visited)
 
 
