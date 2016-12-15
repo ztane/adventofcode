@@ -306,3 +306,11 @@ def a_star_solve(origin,
 chained = chain.from_iterable
 
 
+def lcm(a, b):
+    """
+    Returns the least common multiple of the 2 numbers
+    :param a: number
+    :param b: another
+    :return: the lcm
+    """
+    return (a * b) // gcd(a, b)

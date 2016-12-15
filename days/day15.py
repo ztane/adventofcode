@@ -1,4 +1,4 @@
-from helpers import *
+from helpers import get_aoc_data, get_ints, lcm
 
 d = get_aoc_data(day=15)
 
@@ -11,20 +11,23 @@ def parse_starting_state(data):
 
     return discs
 
+
 def solve(state):
     t = 0
-    product = 1
+    min_step = 1
     disc_set = set(parse_starting_state(state))
     while disc_set:
         for d, p in list(disc_set):
             if not (p + t) % d:
-                product *= d
+                # though not strictly needed with my input as mine are
+                # prime numbers, we should use lcm here in case they're not
+                min_step = lcm(min_step, d)
                 disc_set.discard((d, p))
-                print('synced disc at', t, 'product', product)
+                print('synced disc at', t, '- min step', min_step)
                 continue
 
         if disc_set:
-            t += product
+            t += min_step
 
     return t
 
@@ -46,4 +49,3 @@ Disc #6 has 11 positions; at time=0, it is at position 0.
 
 def part2():
     print('solution', solve(d.data + part2_extra))
-
