@@ -1,13 +1,15 @@
-from helpers import get_aoc_data, get_ints, lcm
+from helpers import get_aoc_data, get_ints, lcm, Parser
 
 d = get_aoc_data(day=15)
 
 
 def parse_starting_state(data):
+    disc_parser = Parser('Disc #<int> has <int> positions; '
+                         'at time=<int>, it is at position <int>.')
     discs = []
     for j, i in enumerate(data.strip().splitlines(), 1):
-        _, positions, _, start = get_ints(i)
-        discs.append((positions, (start + j) % positions))
+        _, positions, t, start = disc_parser(i)
+        discs.append((positions, (start + j - t) % positions))
 
     return discs
 
@@ -43,9 +45,8 @@ def part1():
 
 
 part2_extra = """
-Disc #6 has 11 positions; at time=0, it is at position 0.
+Disc #7 has 8191 positions; at time=0, it is at position 427.
 """
-
 
 def part2():
     print('solution', solve(d.data + part2_extra))
