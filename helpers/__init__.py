@@ -291,12 +291,13 @@ def a_star_solve(origin,
             return distance
 
         visited.add(node)
-        for node in neighbours(node):
+        for d_dist, node in neighbours(node):
             if node in visited:
                 continue
 
-            if distance < max_distance:
-                heappush(queue, Node(heuristic(node, target), distance + 1, node))
+            if distance + d_dist <= max_distance:
+                heappush(queue, Node(heuristic(node, target),
+                                     distance + d_dist, node))
                 cnt += 1
 
     print(cnt, 'iterations')

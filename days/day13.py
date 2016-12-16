@@ -20,7 +20,7 @@ def neighbours(x_y):
         nx = x + dx
         ny = y + dy
         if nx >= 0 and ny >= 0 and is_free(nx, ny):
-            yield (nx, ny)
+            yield (1, (nx, ny))
 
 
 def part1():
