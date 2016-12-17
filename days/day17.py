@@ -2,24 +2,30 @@ from helpers import get_aoc_data, md5digest, a_star_solve
 
 d = get_aoc_data(day=17)
 
+directions = list(enumerate((('U', 0, -1),
+                             ('D', 0, 1),
+                             ('L', -1, 0),
+                             ('R', 1, 0))))
+
 
 def solve(data, find_max_length=False):
     def neighbours(state):
-        route, rhash, x, y = state
-        for i, (direction, dx, dy) in enumerate(
-                [('U', 0, -1), ('D', 0, 1), ('L', -1, 0), ('R', 1, 0)]):
-            if rhash[i] >= 'b':
+        route, x, y = state
+        route_hash = md5digest(data + route)
+        for i, (direction, dx, dy) in directions:
+            if route_hash[i] >= 'b':
                 nx = x + dx
                 ny = y + dy
                 if 0 <= nx <= 3 and 0 <= ny <= 3:
                     nr = route + direction
-                    yield (1, (nr, md5digest(data + nr), nx, ny))
+                    yield (1, (nr, nx, ny))
 
     rv = a_star_solve(
-        origin=('', md5digest(data), 0, 0),
-        is_target=lambda state: state[2] == 3 and state[3] == 3,
+        origin=('', 0, 0),
+        is_target=lambda node: node[1] == 3 and node[2] == 3,
         neighbours=neighbours,
-        heuristic=lambda node, *dummy: abs(node[2] - 3 + abs(node[3] - 3)),
+        # simple manhattan distance
+        heuristic=lambda node, *dummy: abs(node[1] - 3) + abs(node[2] - 3),
         find_all=find_max_length)
 
     if not find_max_length:
