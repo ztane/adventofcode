@@ -30,7 +30,8 @@ def part1():
               target=(31, 39),
               neighbours=neighbours,
               heuristic=lambda node, target:
-                  abs(node[0] - target[0]) + abs(node[1] - target[1])))
+                  abs(node[0] - target[0]) + abs(node[1] - target[1]))
+          [0])
 
 
 def part2():

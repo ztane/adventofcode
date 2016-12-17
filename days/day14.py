@@ -2,7 +2,7 @@ from hashlib import md5
 from itertools import count
 import re
 
-from helpers import get_aoc_data, defaultdict
+from helpers import get_aoc_data, defaultdict, md5digest
 
 start = get_aoc_data(day=14).data
 
@@ -14,22 +14,21 @@ has_5 = re.compile('|'.join(i * 5 for i in hexes))
 def hashes_part1():
     hasher = (start + '%d').encode()
     for i in count():
-        yield i, md5(hasher % i).hexdigest()
+        yield i, md5digest(hasher % i)
 
 
 def hashes_part2():
     hasher = (start + '%d').encode()
     for i in count():
-        current_hash = md5(hasher % i).hexdigest()
+        current_hash = md5digest(hasher % i)
         for _ in range(2016):
-            current_hash = md5(current_hash.encode()).hexdigest()
+            current_hash = md5digest(current_hash)
 
         yield i, current_hash
 
 
 def find_64th(gen):
     need5 = defaultdict(list)
-    hash_count = 0
     hash_indexes = []
     upper_limit = 2 ** 31
     for i, current_hash in gen:

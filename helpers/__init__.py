@@ -272,7 +272,9 @@ def a_star_solve(origin,
                  target=None,
                  max_distance=None,
                  neighbours,
-                 heuristic=None):
+                 heuristic=None,
+                 is_target=None,
+                 find_all=False):
 
     if max_distance is None:
         max_distance = 2 ** 32
@@ -283,12 +285,19 @@ def a_star_solve(origin,
     queue = [Node(heuristic(origin, target), 0, origin)]
     visited = {origin}
 
+    if not is_target:
+        is_target = lambda n: n == target
+
     cnt = 0
+    all_routes = []
     while queue:
         hx, distance, node = heappop(queue)
-        if node == target:
-            print(cnt, 'iterations')
-            return distance
+        if is_target(node):
+            if not find_all:
+                return distance, node
+            else:
+                all_routes.append((distance, node))
+                continue
 
         visited.add(node)
         for d_dist, node in neighbours(node):
@@ -301,6 +310,8 @@ def a_star_solve(origin,
                 cnt += 1
 
     print(cnt, 'iterations')
+    if find_all:
+        return all_routes
     return len(visited)
 
 
@@ -315,3 +326,24 @@ def lcm(a, b):
     :return: the lcm
     """
     return (a * b) // gcd(a, b)
+
+
+def better_translator(table):
+    strings = '|'.join(re.escape(i) for i in table.keys())
+    pattern = re.compile(strings)
+
+    def replacement(m):
+        return table[m.group(0)]
+
+    def translate(s):
+        return pattern.sub(replacement, s)
+
+    return translate
+
+
+def md5digest(s):
+    try:
+        s = s.encode()
+    except AttributeError:
+        pass
+    return md5(s).hexdigest()

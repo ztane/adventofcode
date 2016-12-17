@@ -1,7 +1,7 @@
 from hashlib import md5
 from itertools import count
 
-from helpers import get_aoc_data
+from helpers import get_aoc_data, md5digest
 
 d = get_aoc_data(day=5)
 
@@ -10,7 +10,7 @@ def part1():
     door_id = (d.data.strip() + '%d').encode()
     password = ''
     for i in count():
-        digest = md5(door_id % i).hexdigest()
+        digest = md5digest(door_id % i)
 
         if digest.startswith('00000'):
             password += digest[5]
@@ -27,7 +27,7 @@ def part2():
     door_id = (d.data.strip() + '%d').encode()
     positions = {}
     for i in count():
-        digest = md5(door_id % i).hexdigest()
+        digest = md5digest(door_id % i)
 
         if digest.startswith('00000'):
             pos = digest[5]

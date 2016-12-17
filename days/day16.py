@@ -16,12 +16,12 @@ assert make_dragon('1') == '100'
 assert make_dragon('111100001010') == '1111000010100101011110000'
 
 
-cksum_2 = {'01': '0', '10': '0', '11': '1', '00': '1'}
+cksum_2 = better_translator({'01': '0', '10': '0', '11': '1', '00': '1'})
 
 
 def checksum(a):
     while not len(a) & 1:
-        a = re.sub('..', lambda r: cksum_2[r.group(0)], a)
+        a = cksum_2(a)
 
     return a
 
