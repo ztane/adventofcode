@@ -268,6 +268,15 @@ class Node:
         return iter((self.heuristic, self.distance, self.state))
 
 
+def neighbourhood_4(x, y, valid=lambda x, y: True):
+    neighbours = []
+    for nx, ny in ((x, y + 1), (x + 1, y), (x - 1, y), (x, y - 1)):
+        if valid(nx, ny):
+            neighbours.append((nx, ny))
+
+    return neighbours
+
+
 def a_star_solve(origin,
                  *,
                  target=None,
@@ -276,20 +285,21 @@ def a_star_solve(origin,
                  heuristic=None,
                  is_target=None,
                  find_all=False,
-                 hashable=lambda n: n,
-                 debug=True):
+                 hashable=lambda n: n):
 
     if max_distance is None:
         max_distance = 2 ** 32
 
     if not heuristic:
-        heuristic = lambda node, target: 0
+        def heuristic(node, target):
+            return 0
 
     queue = [Node(heuristic(origin, target), 0, origin)]
     visited = {hashable(origin)}
 
     if not is_target:
-        is_target = lambda n: n == target
+        def is_target(n):
+            return n == target
 
     cnt = 0
     all_routes = []

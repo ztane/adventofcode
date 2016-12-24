@@ -24,11 +24,11 @@ def find_distance(start_marker, end_marker):
 
     def neighboring_nodes(node):
         x, y = node
-        for dx, dy in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
-            nx = x + dx
-            ny = y + dy
-            if 0 <= nx < width and 0 <= ny < height and the_map[ny][nx] != '#':
-                yield 1, (nx, ny)
+        for nx, ny in neighbourhood_4(
+            x, y,
+            lambda x, y: the_map[y][x] != '#'
+        ):
+            yield 1, (nx, ny)
 
     return a_star_solve(
         origin,
