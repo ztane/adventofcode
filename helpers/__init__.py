@@ -155,6 +155,8 @@ class Parser:
     A parser class for parsing fields from a single
     formatted input string.
     """
+    last_val = None
+
     def __init__(self, fmt, verbatim_ws=False):
         """
         Initialize the parser class, with given format
@@ -204,6 +206,7 @@ class Parser:
         """
         m = self.regex.fullmatch(string)
         self.matched = bool(m)
+        self.last_val = string
         if m:
             self.items = tuple(
                 self._convert(m, convfunc, group)
@@ -228,7 +231,7 @@ class Parser:
 
     def __iter__(self):
         if not self.matched:
-            raise ValueError('The pattern didn\'t match')
+            raise ValueError('The pattern didn\'t match {}'.format(self.last_val))
 
         return iter(self.items)
 
@@ -245,8 +248,6 @@ class Parser:
         return self.items[i]
 
 
-
-
 @total_ordering
 class Node:
     __slots__ = ('heuristic', 'distance', 'state')
@@ -261,7 +262,7 @@ class Node:
                 (other.heuristic, other.distance))
 
     def __lt__(self, other):
-        return (self.heuristic, self.distance) < (other.heuristic, other.distance)
+        return self.heuristic + self.distance < other.heuristic + other.distance
 
     def __iter__(self):
         return iter((self.heuristic, self.distance, self.state))
@@ -274,7 +275,9 @@ def a_star_solve(origin,
                  neighbours,
                  heuristic=None,
                  is_target=None,
-                 find_all=False):
+                 find_all=False,
+                 hashable=lambda n: n,
+                 debug=True):
 
     if max_distance is None:
         max_distance = 2 ** 32
@@ -283,13 +286,16 @@ def a_star_solve(origin,
         heuristic = lambda node, target: 0
 
     queue = [Node(heuristic(origin, target), 0, origin)]
-    visited = {origin}
+    visited = {hashable(origin)}
 
     if not is_target:
         is_target = lambda n: n == target
 
     cnt = 0
     all_routes = []
+    max_depth = 0
+
+    min_h = heuristic(origin, target) + 1
     while queue:
         hx, distance, node = heappop(queue)
         if is_target(node):
@@ -299,13 +305,19 @@ def a_star_solve(origin,
                 all_routes.append((distance, node))
                 continue
 
-        visited.add(node)
+        visited.add(hashable(node))
+        if distance > max_depth:
+            max_depth = distance
+
         for d_dist, node in neighbours(node):
-            if node in visited:
+            if hashable(node) in visited:
                 continue
 
             if distance + d_dist <= max_distance:
-                heappush(queue, Node(heuristic(node, target),
+                h = heuristic(node, target)
+                if h < min_h:
+                    min_h = h
+                heappush(queue, Node(h,
                                      distance + d_dist, node))
                 cnt += 1
 
